@@ -6,6 +6,7 @@ use rocket::*;
 
 mod business;
 mod cors;
+mod test;
 
 #[get("/businesses")]
 fn get_businesses() -> Json<Vec<Business>> {
