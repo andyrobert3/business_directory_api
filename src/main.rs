@@ -1,9 +1,11 @@
 use business::*;
+use cors::Cors;
 use rocket::http::Status;
 use rocket::serde::json::Json;
 use rocket::*;
 
 mod business;
+mod cors;
 
 #[get("/businesses")]
 fn get_businesses() -> Json<Vec<Business>> {
@@ -59,15 +61,19 @@ fn update_business(business: Json<Business>) -> Status {
     }
 }
 
+#[options("/business")]
+fn all_options() {}
+
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount(
+    rocket::build().attach(Cors).mount(
         "/",
         routes![
             get_businesses,
             create_business,
             delete_business,
-            update_business
+            update_business,
+            all_options
         ],
     )
 }
